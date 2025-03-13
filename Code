@@ -1,0 +1,299 @@
+package com.mycompany.classinheritance;
+
+/**
+ *
+ * @author FBrentnall2026
+ */
+public class ClassInheritance {
+
+    // The Base Vehicle Class, implements the Speedometer interface
+    public static class Vehicle implements Speedometer {
+        protected String brandName = "";
+        protected double speed = 0.0;
+        protected int passengers = 0;
+        protected double cargoWeight = 0.0;
+
+        public Vehicle() {
+            brandName = "";
+            speed = 0.0;
+            passengers = 0;
+            cargoWeight = 0.0;
+        }
+
+        public Vehicle(String inBrand, double inSpeed, int inPassengers, double inCargo) {
+            brandName = inBrand;
+            speed = inSpeed;
+            passengers = inPassengers;
+            cargoWeight = inCargo;
+        }
+
+        public String getBrand() {
+            return brandName;
+        }
+
+        public void setBrandName(String inBrand) {
+            brandName = inBrand;
+        }
+
+        @Override
+        public double getSpeed() {
+            return speed;
+        }
+
+        @Override
+        public void setSpeed(double inSpeed) {
+            speed = inSpeed;
+        }
+
+        public int getPassengers() {
+            return passengers;
+        }
+
+        public void setPassengers(int inPassengers) {
+            passengers = inPassengers;
+        }
+
+        public double getCargoWeight() {
+            return cargoWeight;
+        }
+
+        public void setCargoWeight(double inCargoWeight) {
+            cargoWeight = inCargoWeight;
+        }
+
+        @Override
+        public String toString() {
+            return "Brand: \t\t\t" + getBrand() + "\n" +
+                   "Speed (mph): \t" + getSpeed() + "\n" +
+                   "Passengers: \t" + getPassengers() + "\n" +
+                   "Cargo (lbs): \t" + getCargoWeight() + "\n";
+        }
+    }
+
+    // Speedometer interface to manage speed of vehicles
+    interface Speedometer {
+        void setSpeed(double inSpeed);
+        double getSpeed();
+    }
+
+    // Car Class extends Vehicle
+    public static class Car extends Vehicle {
+        int wheels = 4;
+        String color = "White";
+        boolean spoiler = false;
+        boolean stereo = false;
+        double mpg = 0.0;
+
+        public Car(String inBrand, double inSpeed, int inPassengers, double inCargo, double inMPG) {
+            super(inBrand, inSpeed, inPassengers, inCargo);
+            mpg = inMPG;
+        }
+
+        public void setSpoiler(boolean inSpoiler) {
+            spoiler = inSpoiler;
+        }
+
+        public boolean getSpoiler() {
+            return spoiler;
+        }
+
+        public void setStereo(boolean inStereo) {
+            stereo = inStereo;
+        }
+
+        public boolean getStereo() {
+            return stereo;
+        }
+
+        @Override
+        public double getSpeed() {
+            if (spoiler)
+                return super.getSpeed() + 20;
+            else
+                return super.getSpeed();
+        }
+
+        public void setMpg(double mpg) {
+            this.mpg = mpg;
+        }
+
+        public double getMPG() {
+            if (stereo)
+                return mpg - (mpg / 10);
+            else
+                return mpg;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() +
+                   "MPG :\t\t\t" + this.getMPG() + "\n";
+        }
+    }
+
+    // SportsCar extends Car
+    public static class SportsCar extends Car {
+        boolean turbo = false;
+        double maxSpeed = 250.0;
+
+        public SportsCar(String inBrand, double inSpeed, int inPassengers, double inCargo, double inMPG, boolean inTurbo) {
+            super(inBrand, inSpeed, inPassengers, inCargo, inMPG);
+            turbo = inTurbo;
+        }
+
+        public void setTurbo(boolean inTurbo) {
+            turbo = inTurbo;
+        }
+
+        public boolean getTurbo() {
+            return turbo;
+        }
+
+        @Override
+        public double getSpeed() {
+            if (turbo) {
+                return Math.min(super.getSpeed() + 50, maxSpeed);
+            } else {
+                return super.getSpeed();
+            }
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() +
+                   "Turbo: \t\t" + getTurbo() + "\n" +
+                   "Max Speed (mph): \t" + maxSpeed + "\n";
+        }
+    }
+
+    // ElectricCar extends Car
+    public static class ElectricCar extends Car {
+        double batteryCapacity = 0.0;
+        boolean fastCharging = false;
+
+        public ElectricCar(String inBrand, double inSpeed, int inPassengers, double inCargo, double inMPG, double inBatteryCapacity, boolean inFastCharging) {
+            super(inBrand, inSpeed, inPassengers, inCargo, inMPG);
+            batteryCapacity = inBatteryCapacity;
+            fastCharging = inFastCharging;
+        }
+
+        public void setBatteryCapacity(double capacity) {
+            batteryCapacity = capacity;
+        }
+
+        public double getBatteryCapacity() {
+            return batteryCapacity;
+        }
+
+        public void setFastCharging(boolean inFastCharging) {
+            fastCharging = inFastCharging;
+        }
+
+        public boolean getFastCharging() {
+            return fastCharging;
+        }
+
+        @Override
+        public double getMPG() {
+            if (fastCharging) {
+                return super.getMPG() + 10;
+            }
+            return super.getMPG();
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() +
+                   "Battery Capacity (kWh): \t" + batteryCapacity + "\n" +
+                   "Fast Charging: \t" + getFastCharging() + "\n";
+        }
+    }
+
+    // Boat Class extends Vehicle
+    public static class Boat extends Vehicle {
+        int enginePower; // Measured in horsepower
+        boolean hasMotor;
+
+        public Boat(String inBrand, double inSpeed, int inPassengers, double inCargo, int inEnginePower, boolean inHasMotor) {
+            super(inBrand, inSpeed, inPassengers, inCargo);
+            enginePower = inEnginePower;
+            hasMotor = inHasMotor;
+        }
+
+        public void setEnginePower(int power) {
+            enginePower = power;
+        }
+
+        public int getEnginePower() {
+            return enginePower;
+        }
+
+        public void setHasMotor(boolean motor) {
+            hasMotor = motor;
+        }
+
+        public boolean getHasMotor() {
+            return hasMotor;
+        }
+
+        @Override
+        public double getSpeed() {
+            if (hasMotor) {
+                return super.getSpeed() + 10; // Motor-powered speed boost
+            }
+            return super.getSpeed();
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() +
+                   "Engine Power (hp): \t" + enginePower + "\n" +
+                   "Has Motor: \t" + getHasMotor() + "\n";
+        }
+    }
+
+    // Helicopter Class extends Vehicle
+    public static class Helicopter extends Vehicle {
+        boolean canHover;
+
+        public Helicopter(String inBrand, double inSpeed, int inPassengers, double inCargo, boolean inCanHover) {
+            super(inBrand, inSpeed, inPassengers, inCargo);
+            canHover = inCanHover;
+        }
+
+        public void setCanHover(boolean hover) {
+            canHover = hover;
+        }
+
+        public boolean getCanHover() {
+            return canHover;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() +
+                   "Can Hover: \t" + getCanHover() + "\n";
+        }
+    }
+
+    public static void main(String[] args) {
+        // Example usage of the classes
+
+        // Create a sports car
+        SportsCar sportsCar = new SportsCar("Ferrari", 120, 2, 50, 25, true);
+        System.out.println(sportsCar);
+
+        // Create an electric car
+        ElectricCar electricCar = new ElectricCar("Tesla", 100, 5, 300, 120, 75, true);
+        System.out.println(electricCar);
+
+        // Create a boat
+        Boat boat = new Boat("Yamaha", 35, 4, 1000, 300, true);
+        System.out.println(boat);
+
+        // Create a helicopter
+        Helicopter helicopter = new Helicopter("Bell", 150, 4, 500, true);
+        System.out.println(helicopter);
+    }
+}
+
